@@ -22,6 +22,5 @@ function Bible()
     if exists('g:BibleDelimiter')
         let command .= " | tr '\\n' '" . g:BibleDelimiter . "'"
     endif
-    echo command
     execute "r! " . command 
 endfunction

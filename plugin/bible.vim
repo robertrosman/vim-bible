@@ -23,7 +23,10 @@ function Bible(...)
     if exists('g:BibleDelimiter')
         let command .= " | tr '\\n' '" . g:BibleDelimiter . "'"
     endif
-    if query != ""
-        execute "r! " . command
+    let text = system(command)
+    if text !~ "^Diatheke" && text !~ "^[\s\n\r]*$"
+        put =text
+    else
+        echo "Invalid query!"
     endif
 endfunction

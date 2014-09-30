@@ -1,7 +1,8 @@
-nmap B y :call Bible()<CR>
+nnoremap <leader>b y :call Bible()<CR>
+vnoremap <leader>b y :call Bible(@*)<CR>
 
 
-function Bible()
+function Bible(...)
     if !exists('g:BibleTranslation')
         echo "You must set g:BibleTranslation before using this plugin!"
         return
@@ -10,7 +11,7 @@ function Bible()
         let g:BibleOmitModuleName = 1
     endif
     let locale = exists('g:BibleLocale') ? " -l " . g:BibleLocale : ""
-    let query = input("Query: ")
+    let query = exists('a:1') ? a:1 : input("Query: ")
     let command = "diatheke -b " . g:BibleTranslation . locale . " -k " . query 
     if exists('g:BibleFormat')
         let command .= " | sed -E \"s/^(.*) ([0-9]+):([0-9]+): (.*)$/" . g:BibleFormat . "/g\""
@@ -22,5 +23,7 @@ function Bible()
     if exists('g:BibleDelimiter')
         let command .= " | tr '\\n' '" . g:BibleDelimiter . "'"
     endif
-    execute "r! " . command 
+    if query != ""
+        execute "r! " . command
+    endif
 endfunction

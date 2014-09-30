@@ -4,8 +4,9 @@ vim-bible
 Vim-bible is a simple vim plugin that makes it easy to insert a Bible passage 
 into vim. The plugin is inspired by [this plugin][1].
 
-At it's simplest, type 'B' in normal mode, enter the query, and the text is 
-inserted.
+At its simplest, type '<leader>b' in normal mode, enter the query, and the text 
+is inserted. You may also select a query in visual mode and run '<leader>b' to 
+insert the corresponding Bible passage.
 
 **Note:** You need to have Diatheke/Sword installed. This is the backend being 
     used to extract the Bible text.
@@ -49,7 +50,7 @@ available:
   4. The text itself
 
 Here are some examples of how it may look like. Note how the backreferences are 
-escaped.
+double escaped.
 
     :let g:BibleFormat = "\\3. \\4"
     16. For God so loved the world...

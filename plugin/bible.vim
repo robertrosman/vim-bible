@@ -1,7 +1,3 @@
-nnoremap <leader>b y :call Bible()<CR>
-vnoremap <leader>b y :call Bible(@*)<CR>
-
-
 function Bible(...)
     if !exists('g:BibleTranslation')
         echo "You must set g:BibleTranslation before using this plugin!"

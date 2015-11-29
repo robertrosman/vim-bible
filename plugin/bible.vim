@@ -7,7 +7,6 @@ function Bible(...)
         let g:BibleOmitModuleName = 1
     endif
 
-  	"let translation = (a:0 >= 1) ? a:1 : g:BibleTranslation
     let translation = exists('a:1') ? a:1 : g:BibleTranslation
     let format = exists('a:2') ? a:2 : g:BibleFormat
     let locale = exists('a:3') ? a:3 : g:BibleLocale
@@ -28,7 +27,6 @@ function Bible(...)
         let command .= " | tr '\\n' '" . g:BibleDelimiter . "'"
     endif
     let text = system(command)
-    echo text
     if text !~ "^Diatheke" && text !~ "^[\s\n\r]*$"
         put =text
     else

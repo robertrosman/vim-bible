@@ -4,9 +4,8 @@ vim-bible
 Vim-bible is a simple vim plugin that makes it easy to insert a Bible passage
 into vim. The plugin is inspired by [this plugin][1].
 
-At its simplest, type `<leader>b` in normal mode, enter the query, and the text
-is inserted. You may also select a query in visual mode and run `<leader>b` to
-insert the corresponding Bible passage.
+To use the plugin, run `:call Bible()` in vim and enter your query. You can also
+map the command like described in [Using the plugin](#using-the-plugin).
 
 **Note:** You need to have Diatheke/Sword installed. This is the backend being
     used to extract the Bible text.
@@ -106,6 +105,9 @@ You can map the `Bible()` function as you wish. The proposed mappings are
     nnoremap <leader>b y :call Bible()<CR>
     vnoremap <leader>b y :call Bible(@*)<CR>
 
+With those mappings you can type `<leader>b` in normal mode, enter the 
+query, and the text is inserted. You may also select a query in visual
+mode and run `<leader>b` to insert the corresponding Bible passage.
 
 Copyright & license
 -------------------

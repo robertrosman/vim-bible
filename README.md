@@ -4,9 +4,14 @@ vim-bible
 Vim-bible is a simple vim plugin that makes it easy to insert a Bible passage
 into vim. The plugin is inspired by [this plugin][1].
 
+<<<<<<< HEAD
 At its simplest, type `<leader>b` in normal mode, enter the query, and the text
 is inserted. You may also select a query in visual mode and run `<leader>b` to
 insert the corresponding Bible passage.
+=======
+To use the plugin, run `:call Bible()` in vim and enter your query. You can also
+map the command like described in [Using the plugin](#using-the-plugin).
+>>>>>>> release/multi-translation
 
 **Note:** You need to have Diatheke/Sword installed. This is the backend being
     used to extract the Bible text.
@@ -100,11 +105,20 @@ specified like this:
 Using the plugin
 ----------------
 
-You can map the `Bible()` function as you wish. The proposed mappings are
-`<leader>b`, but you can chose what suits you best. Example:
+You can map the `Bible()` function as you wish. Here is an example:
 
-    nnoremap <leader>b y :call Bible()<CR>
-    vnoremap <leader>b y :call Bible(@*)<CR>
+    nnoremap <leader>n y :call Bible("nlt-se", "\\4", "en", " ", 0)<CR>
+    vnoremap <leader>n y :call Bible("nlt-se", "\\4", "en", " ", 0, @*)<CR>
+
+    nnoremap <leader>k y :call Bible("KJV", "\\4", "en", " ", 1)<CR>
+    nnoremap <leader>k y :call Bible("KJV", "\\4", "en", " ", 1, @*)<CR>
+
+    nnoremap <leader>j y :call Bible("jfa-rc", "\\4", "en", " ", 0)<CR>
+    nnoremap <leader>j y :call Bible("jfa-rc", "\\4", "en", " ", 0, @*)<CR>
+
+With those mappings you can type `<leader>n` in normal mode, enter the
+query, and the text is inserted. You may also select a query in visual
+mode and run `<leader>n` to insert the corresponding Bible passage.
 
 
 Copyright & license

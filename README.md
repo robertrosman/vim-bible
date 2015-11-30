@@ -4,7 +4,7 @@ vim-bible
 Vim-bible is a simple vim plugin that makes it easy to insert a Bible passage
 into vim. The plugin is inspired by [this plugin][1].
 
-To use the plugin, run `:call Bible()` in vim and enter your query. You can also
+To use the plugin, run `:call Bible("KJV")` in vim and enter your query. You can also
 map the command like described in [Using the plugin](#using-the-plugin).
 
 **Note:** You need to have Diatheke/Sword installed. This is the backend being
@@ -99,20 +99,121 @@ specified like this:
 Using the plugin
 ----------------
 
-You can map the `Bible()` function as you wish. Here is an example:
+If you don't use several translations the easiest way to configure the plugin
+is by setting up the global defaults. Here is an example:
+```
+let g:BibleTranslation = "nlt-se"
+let g:BibleFormat = "\\4"
+let g:BibleLocale = "en"
+let g:BibleDelimiter = " "
 
-    nnoremap <leader>n y :call Bible("nlt-se", "\\4", "en", " ", 0)<CR>
-    vnoremap <leader>n y :call Bible("nlt-se", "\\4", "en", " ", 0, @*)<CR>
+nnoremap <leader>v y :call Bible()<CR>
+```
 
-    nnoremap <leader>k y :call Bible("KJV", "\\4", "en", " ", 1)<CR>
-    nnoremap <leader>k y :call Bible("KJV", "\\4", "en", " ", 1, @*)<CR>
+If you use several translations, you need to expand the prior global values as
+arguments. In the following examples you can use how to use the plugin directly
+(which might not be very comfortable) and how to map the `Bible()`.
 
-    nnoremap <leader>j y :call Bible("jfa-rc", "\\4", "en", " ", 0)<CR>
-    nnoremap <leader>j y :call Bible("jfa-rc", "\\4", "en", " ", 0, @*)<CR>
 
-With those mappings you can type `<leader>n` in normal mode, enter the
+#### Example 1:
+
+Input:
+```
+:call Bible('KJV')
+```
+
+Explanation: This type of settings will use the defaults. It will prompt for a
+`Query` passage. In this example we used `John 3:16-17`.
+
+Output:
+```
+John 3:16: For God so loved the world, that he gave his only begotten Son, that whosoever believeth in him should not perish, but have everlasting life.
+John 3:17: For God sent not his Son into the world to condemn the world; but that the world through him might be saved.
+(KJV)
+```
+
+Example of mappings using `ctrl+i` + `k`:
+```
+nnoremap <C-I>k y :call Bible('KJV')<CR>
+vnoremap <C-I>k y :call Bible('KJV', '', 'en', '', 0, @*)<CR>
+```
+
+
+#### Example 2:
+
+Input:
+```
+:call Bible('nlt-se', '\\4', 'en', ' ', 0, 'John 3:16-17')
+```
+
+Explanation: This type of settings will print the verses together as a full
+paragraph without querying for a Bible passage. It will also append the bible
+version. The example uses the `nlt-se` (New Living Translation, Second Edition)
+Bible translation in English. Example:
+
+Output:
+```
+For God loved the world so much that he gave his one and only Son, so that everyone who believes in him will not perish but have eternal life. God sent his Son into the world not to judge the world, but to save the world through him. (nlt-se)
+```
+
+Example mappings using `ctrl-i` + `n`:
+```
+nnoremap <C-I>n y :call Bible('nlt-se', '\\4', 'en', ' ', 0)<CR>
+vnoremap <C-I>n y :call Bible('nlt-se', '\\4', 'en', ' ', 0, @*)<CR>
+```
+
+With those mappings you can type `<C-I>n` in normal mode, enter the
 query, and the text is inserted. You may also select a query in visual
-mode and run `<leader>n` to insert the corresponding Bible passage.
+mode and run `<C-I>n` to insert the corresponding Bible passage.
+
+
+#### Example 3:
+
+Input:
+```
+:call Bible('jfa-rc', '\\4', 'pt', ' ', 1, 'John 3:16-17')
+```
+
+Explanation: This type of call is similar to the prior, except that it will
+remove the module name. The example uses the `jfa-rc` (João Ferreira de
+Almeida, versão revisada corrigida) Bible translation in Portuguese. Example:
+
+Output:
+```
+Porque Deus amou o Mundo de tal maneira que deu o seu Filho unigénito, para que todo aquele que nele crê não pereça, mas tenha a vida eterna. Porque Deus enviou o seu Filho ao mundo, não para que condenasse o mundo, mas para que o mundo fosse salvo por ele.
+```
+
+Example of mappings using `ctrl-i` + `j`:
+```
+nnoremap <C-I>j y :call Bible('jfa-rc', '\\4', 'pt', ' ', 1)<CR>
+vnoremap <C-I>j y :call Bible('jfa-rc', '\\4', 'pt', ' ', 1, @*)<CR>
+```
+
+
+#### Example 4:
+
+Input:
+```
+:call Bible('SpaRV', 'Verse \\3. \\4', 'es', '\n', 0, 'John 3:16-17')
+```
+
+Explanation: This type of call is similar to the prior, except that it will
+change the formatting. It will show the module name also. The example uses the
+`SpaRV` (Reina Valera 1909) Bible translation in Spanish. Example
+
+Output:
+```
+Verse 16. Porque de tal manera amó Dios al mundo, que ha dado á su Hijo unigénito, para que todo aquel que en él cree, no se pierda, mas tenga vida eterna.
+Verse 17. Porque no envió Dios á su Hijo al mundo, para que condene al mundo, mas para que el mundo sea salvo por él.
+(SpaRV)
+```
+
+Example of mappings using `ctrl-i` + `r`:
+```
+nnoremap <C-I>r y :call Bible('SpaRV', '> \\3. \\4', 'es', ' ', 0)<CR>
+vnoremap <C-I>r y :call Bible('SpaRV', '> \\3. \\4', 'es', ' ', 0, @*)<CR>
+```
+
 
 Copyright & license
 -------------------
@@ -122,6 +223,12 @@ Copyright & license
 Licensed under [GNU GPL v3][3].
 
 
+Contributors
+------------
+* [@vonpupp]. Decoupled configuration from plugin and added multi-translation Bible support.
+
+
 [1]: http://pastebin.com/pVgEpnJz
 [2]: https://github.com/tpope/vim-pathogen
 [3]: http://www.gnu.org/licenses/gpl.txt
+[@vonpupp]: http://github.com/vonpupp

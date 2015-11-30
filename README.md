@@ -223,6 +223,12 @@ Copyright & license
 Licensed under [GNU GPL v3][3].
 
 
+Contributors
+------------
+* [@vonpupp]. Decoupled configuration from plugin and added multi-translation Bible support.
+
+
 [1]: http://pastebin.com/pVgEpnJz
 [2]: https://github.com/tpope/vim-pathogen
 [3]: http://www.gnu.org/licenses/gpl.txt
+[@vonpupp]: http://github.com/vonpupp

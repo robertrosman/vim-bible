@@ -4,7 +4,7 @@ vim-bible
 Vim-bible is a simple vim plugin that makes it easy to insert a Bible passage
 into vim. The plugin is inspired by [this plugin][1].
 
-To use the plugin, run `:call Bible("KJV")` in vim and enter your query. You can also
+To use the plugin, run `:call Bible()` in vim and enter your query. You can also
 map the command like described in [Using the plugin](#using-the-plugin).
 
 **Note:** You need to have Diatheke/Sword installed. This is the backend being
@@ -23,12 +23,10 @@ With [Pathogen][2]:
 Settings
 --------
 
-There are a few settings, which of some are required for the plugin to work.
-
 ### g:BibleTranslation
 
-This setting is required. Specify the name of the module here. If you're not
-sure about the correct abbreviation, you can run:
+This is the default Bible translation that will be used. Specify the name of the 
+module here. If you're not sure about the correct abbreviation, you can run:
 
     diatheke -b system -k modulelist
 
@@ -99,6 +97,22 @@ specified like this:
 Using the plugin
 ----------------
 
+The following arguments can be passed to Bible():
+
+    Bible(query, translation, format, locale, delimiter, omitModuleName)
+
+`query`: This is the bible reference to be inserted. If set to "" or omitted, 
+the user will be prompted for the query.
+
+`translation`: The bible translation to be used. If set to "" or omitted, the
+default translation will be used (g:BibleTranslation), and if the default
+translation is not set, the user will be prompted for the translation.
+
+`format`, `locale`, `delimiter`, `omitModuleName`, are the equivalents of 
+[g:BibleFormat](#gbibleformat), [g:BibleLocale](#gbiblelocale), 
+[g:BibleDelimiter](#gbibledelimiter), 
+[g:BibleOmitModuleName](#gbibleomitmodulename).
+
 If you don't use several translations the easiest way to configure the plugin
 is by setting up the global defaults. Here is an example:
 ```
@@ -107,7 +121,8 @@ let g:BibleFormat = "\\4"
 let g:BibleLocale = "en"
 let g:BibleDelimiter = " "
 
-nnoremap <leader>v y :call Bible()<CR>
+nnoremap <leader>b y :call Bible()<CR>
+vnoremap <leader>b y :call Bible(@*)<CR> "Use selection as query
 ```
 
 If you use several translations, you need to expand the prior global values as
@@ -118,12 +133,35 @@ arguments. In the following examples you can use how to use the plugin directly
 #### Example 1:
 
 Input:
-```
-:call Bible('KJV')
-```
+
+    :call Bible()
 
 Explanation: This type of settings will use the defaults. It will prompt for a
-`Query` passage. In this example we used `John 3:16-17`.
+`Query` passage and translation. In this example we used `John 3:16-17` and 
+`KJV`.
+
+Output:
+```
+John 3:16: For God so loved the world, that he gave his only begotten Son, that whosoever believeth in him should not perish, but have everlasting life.
+John 3:17: For God sent not his Son into the world to condemn the world; but that the world through him might be saved.
+(KJV)
+```
+
+Example of mappings using `ctrl+i`:
+```
+nnoremap <C-I> y :call Bible()<CR>
+vnoremap <C-I> y :call Bible(@*)<CR>
+```
+
+
+#### Example 2:
+
+Input:
+
+    :call Bible('', "KJV")
+
+Explanation: This command will explicitly use the KJV bible translation, but 
+will still prompt the user for the `Query` passage.
 
 Output:
 ```
@@ -134,16 +172,15 @@ John 3:17: For God sent not his Son into the world to condemn the world; but tha
 
 Example of mappings using `ctrl+i` + `k`:
 ```
-nnoremap <C-I>k y :call Bible('KJV')<CR>
-vnoremap <C-I>k y :call Bible('KJV', '', 'en', '', 0, @*)<CR>
+nnoremap <C-I>k y :call Bible('', "KJV")<CR>
+vnoremap <C-I>k y :call Bible(@*, "KJV")<CR>
 ```
 
-
-#### Example 2:
+#### Example 3:
 
 Input:
 ```
-:call Bible('nlt-se', '\\4', 'en', ' ', 0, 'John 3:16-17')
+:call Bible('John 3:16-17', 'nlt-se', '\\4', 'en', ' ', 0)
 ```
 
 Explanation: This type of settings will print the verses together as a full
@@ -158,8 +195,8 @@ For God loved the world so much that he gave his one and only Son, so that every
 
 Example mappings using `ctrl-i` + `n`:
 ```
-nnoremap <C-I>n y :call Bible('nlt-se', '\\4', 'en', ' ', 0)<CR>
-vnoremap <C-I>n y :call Bible('nlt-se', '\\4', 'en', ' ', 0, @*)<CR>
+nnoremap <C-I>n y :call Bible('', 'nlt-se', '\\4', 'en', ' ', 0)<CR>
+vnoremap <C-I>n y :call Bible(@*, 'nlt-se', '\\4', 'en', ' ', 0)<CR>
 ```
 
 With those mappings you can type `<C-I>n` in normal mode, enter the
@@ -167,11 +204,11 @@ query, and the text is inserted. You may also select a query in visual
 mode and run `<C-I>n` to insert the corresponding Bible passage.
 
 
-#### Example 3:
+#### Example 4:
 
 Input:
 ```
-:call Bible('jfa-rc', '\\4', 'pt', ' ', 1, 'John 3:16-17')
+:call Bible('John 3:16-17', 'jfa-rc', '\\4', 'pt', ' ', 1)
 ```
 
 Explanation: This type of call is similar to the prior, except that it will
@@ -185,16 +222,16 @@ Porque Deus amou o Mundo de tal maneira que deu o seu Filho unigénito, para que
 
 Example of mappings using `ctrl-i` + `j`:
 ```
-nnoremap <C-I>j y :call Bible('jfa-rc', '\\4', 'pt', ' ', 1)<CR>
-vnoremap <C-I>j y :call Bible('jfa-rc', '\\4', 'pt', ' ', 1, @*)<CR>
+nnoremap <C-I>j y :call Bible('', 'jfa-rc', '\\4', 'pt', ' ', 1)<CR>
+vnoremap <C-I>j y :call Bible(@*, 'jfa-rc', '\\4', 'pt', ' ', 1)<CR>
 ```
 
 
-#### Example 4:
+#### Example 5:
 
 Input:
 ```
-:call Bible('SpaRV', 'Verse \\3. \\4', 'es', '\n', 0, 'John 3:16-17')
+:call Bible('John 3:16-17', 'SpaRV', 'Verse \\3. \\4', 'es', '\n', 0)
 ```
 
 Explanation: This type of call is similar to the prior, except that it will
@@ -210,8 +247,8 @@ Verse 17. Porque no envió Dios á su Hijo al mundo, para que condene al mundo, 
 
 Example of mappings using `ctrl-i` + `r`:
 ```
-nnoremap <C-I>r y :call Bible('SpaRV', '> \\3. \\4', 'es', ' ', 0)<CR>
-vnoremap <C-I>r y :call Bible('SpaRV', '> \\3. \\4', 'es', ' ', 0, @*)<CR>
+nnoremap <C-I>r y :call Bible('', SpaRV', '> \\3. \\4', 'es', ' ', 0)<CR>
+vnoremap <C-I>r y :call Bible(@*, SpaRV', '> \\3. \\4', 'es', ' ', 0)<CR>
 ```
 
 

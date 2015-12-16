@@ -125,6 +125,10 @@ nnoremap <leader>b y :call Bible()<CR>
 vnoremap <leader>b y :call Bible(@*)<CR> "Use selection as query
 ```
 
+With those mappings you can type `<leader>b` in normal mode, enter the 
+query, and the text is inserted. You may also select a query in visual
+mode and run `<leader>b` to insert the corresponding Bible passage.
+
 If you use several translations, you need to expand the prior global values as
 arguments. In the following examples you can use how to use the plugin directly
 (which might not be very comfortable) and how to map the `Bible()`.
@@ -251,10 +255,6 @@ nnoremap <C-I>r y :call Bible('', SpaRV', '> \\3. \\4', 'es', ' ', 0)<CR>
 vnoremap <C-I>r y :call Bible(@*, SpaRV', '> \\3. \\4', 'es', ' ', 0)<CR>
 ```
 
-
-With those mappings you can type `<leader>b` in normal mode, enter the 
-query, and the text is inserted. You may also select a query in visual
-mode and run `<leader>b` to insert the corresponding Bible passage.
 
 Copyright & license
 -------------------

@@ -252,6 +252,9 @@ vnoremap <C-I>r y :call Bible(@*, SpaRV', '> \\3. \\4', 'es', ' ', 0)<CR>
 ```
 
 
+With those mappings you can type `<leader>b` in normal mode, enter the 
+query, and the text is inserted. You may also select a query in visual
+mode and run `<leader>b` to insert the corresponding Bible passage.
 
 Copyright & license
 -------------------

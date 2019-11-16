@@ -1,4 +1,4 @@
-function Bible(...)
+fu! bible#insert_quote(...) abort
     let query = exists('a:1') && a:1 != "" ? a:1 : input("Query: ")
     let translation = exists('a:2') && a:2 != "" ? a:2 : (exists('g:BibleTranslation') ? g:BibleTranslation : input("Bible translation: "))
     let format = exists('a:3') ? a:3 : (exists('g:BibleFormat') ? g:BibleFormat : "")

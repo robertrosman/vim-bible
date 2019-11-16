@@ -4,8 +4,8 @@ vim-bible
 Vim-bible is a simple vim plugin that makes it easy to insert a Bible passage
 into vim. The plugin is inspired by [this plugin][1].
 
-To use the plugin, run `:call Bible()` in vim and enter your query. You can also
-map the command like described in [Using the plugin](#using-the-plugin).
+To use the plugin, run `:call bible#insert_quote()` in vim and enter your query.
+You can also map the command like described in [Using the plugin](#using-the-plugin).
 
 **Note:** You need to have Diatheke/Sword installed. This is the backend being
     used to extract the Bible text.
@@ -97,9 +97,9 @@ specified like this:
 Using the plugin
 ----------------
 
-The following arguments can be passed to Bible():
+The following arguments can be passed to bible#insert_quote():
 
-    Bible(query, translation, format, locale, delimiter, omitModuleName)
+    bible#insert_quote(query, translation, format, locale, delimiter, omitModuleName)
 
 `query`: This is the bible reference to be inserted. If set to "" or omitted, 
 the user will be prompted for the query.
@@ -121,8 +121,8 @@ let g:BibleFormat = "\\4"
 let g:BibleLocale = "en"
 let g:BibleDelimiter = " "
 
-nnoremap <leader>b y :call Bible()<CR>
-vnoremap <leader>b y :call Bible(@*)<CR> "Use selection as query
+nnoremap <leader>b y :call bible#insert_quote()<CR>
+vnoremap <leader>b y :call bible#insert_quote(@*)<CR> "Use selection as query
 ```
 
 With those mappings you can type `<leader>b` in normal mode, enter the 
@@ -131,14 +131,14 @@ mode and run `<leader>b` to insert the corresponding Bible passage.
 
 If you use several translations, you need to expand the prior global values as
 arguments. In the following examples you can use how to use the plugin directly
-(which might not be very comfortable) and how to map the `Bible()`.
+(which might not be very comfortable) and how to map the `bible#insert_quote()`.
 
 
 #### Example 1:
 
 Input:
 
-    :call Bible()
+    :call bible#insert_quote()
 
 Explanation: This type of settings will use the defaults. It will prompt for a
 `Query` passage and translation. In this example we used `John 3:16-17` and 
@@ -153,8 +153,8 @@ John 3:17: For God sent not his Son into the world to condemn the world; but tha
 
 Example of mappings using `ctrl+i`:
 ```
-nnoremap <C-I> y :call Bible()<CR>
-vnoremap <C-I> y :call Bible(@*)<CR>
+nnoremap <C-I> y :call bible#insert_quote()<CR>
+vnoremap <C-I> y :call bible#insert_quote(@*)<CR>
 ```
 
 
@@ -162,7 +162,7 @@ vnoremap <C-I> y :call Bible(@*)<CR>
 
 Input:
 
-    :call Bible('', "KJV")
+    :call bible#insert_quote('', "KJV")
 
 Explanation: This command will explicitly use the KJV bible translation, but 
 will still prompt the user for the `Query` passage.
@@ -176,15 +176,15 @@ John 3:17: For God sent not his Son into the world to condemn the world; but tha
 
 Example of mappings using `ctrl+i` + `k`:
 ```
-nnoremap <C-I>k y :call Bible('', "KJV")<CR>
-vnoremap <C-I>k y :call Bible(@*, "KJV")<CR>
+nnoremap <C-I>k y :call bible#insert_quote('', "KJV")<CR>
+vnoremap <C-I>k y :call bible#insert_quote(@*, "KJV")<CR>
 ```
 
 #### Example 3:
 
 Input:
 ```
-:call Bible('John 3:16-17', 'nlt-se', '\\4', 'en', ' ', 0)
+:call bible#insert_quote('John 3:16-17', 'nlt-se', '\\4', 'en', ' ', 0)
 ```
 
 Explanation: This type of settings will print the verses together as a full
@@ -199,8 +199,8 @@ For God loved the world so much that he gave his one and only Son, so that every
 
 Example mappings using `ctrl-i` + `n`:
 ```
-nnoremap <C-I>n y :call Bible('', 'nlt-se', '\\4', 'en', ' ', 0)<CR>
-vnoremap <C-I>n y :call Bible(@*, 'nlt-se', '\\4', 'en', ' ', 0)<CR>
+nnoremap <C-I>n y :call bible#insert_quote('', 'nlt-se', '\\4', 'en', ' ', 0)<CR>
+vnoremap <C-I>n y :call bible#insert_quote(@*, 'nlt-se', '\\4', 'en', ' ', 0)<CR>
 ```
 
 With those mappings you can type `<C-I>n` in normal mode, enter the
@@ -212,7 +212,7 @@ mode and run `<C-I>n` to insert the corresponding Bible passage.
 
 Input:
 ```
-:call Bible('John 3:16-17', 'jfa-rc', '\\4', 'pt', ' ', 1)
+:call bible#insert_quote('John 3:16-17', 'jfa-rc', '\\4', 'pt', ' ', 1)
 ```
 
 Explanation: This type of call is similar to the prior, except that it will
@@ -226,8 +226,8 @@ Porque Deus amou o Mundo de tal maneira que deu o seu Filho unigénito, para que
 
 Example of mappings using `ctrl-i` + `j`:
 ```
-nnoremap <C-I>j y :call Bible('', 'jfa-rc', '\\4', 'pt', ' ', 1)<CR>
-vnoremap <C-I>j y :call Bible(@*, 'jfa-rc', '\\4', 'pt', ' ', 1)<CR>
+nnoremap <C-I>j y :call bible#insert_quote('', 'jfa-rc', '\\4', 'pt', ' ', 1)<CR>
+vnoremap <C-I>j y :call bible#insert_quote(@*, 'jfa-rc', '\\4', 'pt', ' ', 1)<CR>
 ```
 
 
@@ -235,7 +235,7 @@ vnoremap <C-I>j y :call Bible(@*, 'jfa-rc', '\\4', 'pt', ' ', 1)<CR>
 
 Input:
 ```
-:call Bible('John 3:16-17', 'SpaRV', 'Verse \\3. \\4', 'es', '\n', 0)
+:call bible#insert_quote('John 3:16-17', 'SpaRV', 'Verse \\3. \\4', 'es', '\n', 0)
 ```
 
 Explanation: This type of call is similar to the prior, except that it will
@@ -251,8 +251,8 @@ Verse 17. Porque no envió Dios á su Hijo al mundo, para que condene al mundo, 
 
 Example of mappings using `ctrl-i` + `r`:
 ```
-nnoremap <C-I>r y :call Bible('', SpaRV', '> \\3. \\4', 'es', ' ', 0)<CR>
-vnoremap <C-I>r y :call Bible(@*, SpaRV', '> \\3. \\4', 'es', ' ', 0)<CR>
+nnoremap <C-I>r y :call bible#insert_quote('', SpaRV', '> \\3. \\4', 'es', ' ', 0)<CR>
+vnoremap <C-I>r y :call bible#insert_quote(@*, SpaRV', '> \\3. \\4', 'es', ' ', 0)<CR>
 ```
 
 

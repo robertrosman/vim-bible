@@ -20,6 +20,7 @@ fu! bible#insert_quote(...) abort
 
     let text = system(command)
     if text !~ "^Diatheke" && text !~ "^[\s\n\r]*$"
+        let text = substitute(text, '<[^>]*>', '', 'g')
         put = text
     else
         echo "Invalid query!"
